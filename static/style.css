@@ -105,10 +105,56 @@ header h2{
 
 main{
     text-align: center;
-}
-
-.title{
     font-family: "Eagle Lake", serif;
     font-weight: 400;
     font-style: normal;
+}
+
+.title{
+    margin-bottom: 5%;
+}
+
+.formulario-vino{
+     width: 40%;
+     height: fit-content;
+     margin: 0% auto;
+     border-style: solid;
+     border-color: black;
+     border-radius: 5px;
+    
+}
+
+.button-ev{
+    width: 10%;
+    font-family: "Eagle Lake", serif;
+    font-weight: 400;
+    font-style: normal;
+    border-radius: 5px;
+    margin-bottom: 2%;
+    background-color: blanchedalmond;
+    transition: 1s;
+}
+
+.button-ev:hover{
+    width: 15%;
+    border-color: forestgreen;
+    cursor: pointer;
+}
+
+.select{
+    width: 5.5%;
+    height: 3.5%;
+    position: absolute;
+    background-color: blanchedalmond;
+    font-family: "Eagle Lake", serif;
+    font-weight: bolder;
+    font-style: normal;
+    top: 43%;
+    right: 31%;
+}
+
+.title-select{
+    position: absolute;
+    top: 41.2%;
+    right: 36.8%;
 }
