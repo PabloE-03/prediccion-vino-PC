@@ -20,11 +20,32 @@
         <h1 class="title">EVALUACION DE VINOS</h1>
         <div class="formulario-vino">
             <h2>Pon la característica de tu vino y lo evaluaremos</h2>
-            <h5 class="title-select">Configuracion --</h5>
-            <select class="select">
+            <h5 class="title-select">Configuracion --
+                <select id="select" onchange="animacion()">
                 <option value="regresion">Regresion</option>
                 <option value="knn">KNN</option>
             </select>
+            <div class="animacion-1">
+                <div class="regresion"></div>
+            </div>
+            <div class="animacion-2">
+                <div class="knn"></div>
+                <div class="knn"></div>
+                <div class="knn"></div>
+                <div class="circulo"></div>
+            </div>
+        </h5>
+            <div class="campos">
+                <h4>⥼-- Acidez fija:<input type="number" value="0">    <b>--⥽</b></h4>
+                <h4>⥼-- Acidez volatil:<input type="number" value="0"> <b>--⥽</b></h4>
+                <h4>⥼-- Ácido cítrico:<input type="number" value="0">  <b>--⥽</b></h4>
+                <h4>⥼-- Cloruros:<input type="number" value="0">       <b>--⥽</b></h4>
+                <h4>⥼-- Dióxido de azufre:<input type="number" value="0">       <b>--⥽</b></h4>
+                <h4>⥼-- Densidad:<input type="number" value="0">       <b>--⥽</b></h4>
+                <h4>⥼-- Sulfatos:<input type="number" value="0">       <b>--⥽</b></h4>
+                <h4>⥼-- Alcohol:<input type="number" value="0"  >      <b>--⥽</b></h4>
+            </div>
+            <h5 class="label-pop-up">Porque estos campos</h5>
             
 
             <button class="button-ev">Evaluar</button>
@@ -33,5 +54,71 @@
     <footer>
 
     </footer>
+    <script>
+        const animacion = ()=>{
+            const select = document.getElementById("select")
+            const caja_1 = document.getElementsByClassName("animacion-1")[0]
+            const regresion = document.getElementsByClassName("regresion")[0]
+            const caja_2 = document.getElementsByClassName("animacion-2")[0]
+            const knn = document.getElementsByClassName("knn")
+            const circulo = document.getElementsByClassName("circulo")[0]
+            if(select.value=="regresion")
+            {
+                caja_2.style.transitionDelay = "0s"
+                circulo.style.transitionDelay = "0s"
+                knn.item(0).style.transitionDelay = "0s";
+                knn.item(1).style.transitionDelay = "0s";
+                knn.item(2).style.transitionDelay = "0s";
+                caja_2.style.width = "0vw";
+                caja_2.style.height = "0vh";
+                caja_2.style.borderColor = "transparent";
+                for(let item = 0;item<knn.length;item++)
+                {
+                    knn.item(item).style.width = "0%";
+                    knn.item(item).style.height = "0vh";
+                }
+                circulo.style.borderColor = "transparent";
+
+                caja_1.style.transitionDelay = "1s"
+                regresion.style.transitionDelay = "1.8s";
+                caja_1.style.width = "2.5vw";
+                caja_1.style.height = "5vh";
+                caja_1.style.borderColor = "black";
+                regresion.style.width = "100%";
+                regresion.style.borderColor = "darkred"; 
+            }
+            else
+            {
+                caja_2.style.transitionDelay = "1s"
+                circulo.style.transitionDelay = "3s"
+                knn.item(0).style.transitionDelay = "2s";
+                knn.item(1).style.transitionDelay = "2.2s";
+                knn.item(2).style.transitionDelay = "2.4s";
+
+                caja_1.style.transitionDelay = "0s"
+                regresion.style.transitionDelay = "0s";
+                caja_1.style.width = "0vw";
+                caja_1.style.height = "0vh";
+                caja_1.style.borderColor = "transparent";
+                regresion.style.width = "0%";
+                regresion.style.borderColor = "transparent";
+
+                caja_2.style.width = "3.5vw";
+                caja_2.style.height = "6vh";
+                caja_2.style.borderColor = "black";
+
+
+                for(let item = 0;item<knn.length;item++)
+                {
+                    knn.item(item).style.width = "20%";
+                    knn.item(item).style.height = "1.5vh";
+                } 
+                // circulo.style.width = "40%";
+                // circulo.style.height = "4.5vh";
+                circulo.style.borderColor = "black";
+            }
+        }
+        
+    </script>
 </body>
 </html>
