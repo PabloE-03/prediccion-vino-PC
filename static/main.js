@@ -62,23 +62,24 @@ const animacion = ()=>{
     }
 }
 
-const evaluate = async()=>{
-    const select = document.getElementById(select);
+const evaluate_wine = async()=>{
+    const select = document.getElementById("select");
     const input = document.getElementsByTagName("input");
     let valores = {
-        "fixed acidity":input.item(0),
-        "volatile acidity":input.item(1),
-        "citric acid":input.item(2),
-        "chlorides":input.item(3),
-        "total sulfur dioxide":input.item(4),
-        "density":input.item(5),
-        "sulphates":input.item(6),
-        "alcohol":input.item(7)
+        "fixed acidity":input.item(0).value,
+        "volatile acidity":input.item(1).value,
+        "citric acid":input.item(2).value,
+        "chlorides":input.item(3).value,
+        "total sulfur dioxide":input.item(4).value,
+        "density":input.item(5).value,
+        "sulphates":input.item(6).value,
+        "alcohol":input.item(7).value
     };
-    let url = select.value=="regresion" ? "http://localhost:5002/regression" : "http://localhost:5002/classifier";
+    let url = select.value=="regresion" ? "http://localhost:5002/regressor" : "http://localhost:5002/classifier";
 
     const response = await fetch(url,{
         method:"POST",
+        headers:{"Content-Type":"application/json"},
         body:JSON.stringify(valores)
     })
 
