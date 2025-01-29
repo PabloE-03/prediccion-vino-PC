@@ -53,15 +53,35 @@ def index():
 @app.route('/classifier', methods=['POST'])
 def knn_classifier():
   params = request.get_json(force=True)
+  for keys in params:
+    params[keys] = [params[keys]]
+  data = pd.DataFrame(data=params)
+
+  # escalado
+  scaler = pickle.load(open('models/scaler.pkl',"rb"))
+  data = scaler.transform(data)
+
+  # prediccion
   classifier = pickle.load(open('models/classifier.pkl', 'rb'))
-  prediction = classifier.predict(params)
+  prediction = classifier.predict(data)
+  print(prediction)
   return jsonify(prediction)
 
 @app.route('/regressor', methods=['POST'])
 def knn_regressor():
   params = request.get_json(force=True)
+  for keys in params:
+    params[keys] = [params[keys]]
+  data = pd.DataFrame(data=params)
+
+  # escalado
+  scaler = pickle.load(open('models/scaler.pkl',"rb"))
+  data = scaler.transform(data)
+
+  # prediccion
   regressor = pickle.load(open('models/regressor.pkl', 'rb'))
-  prediction = regressor.predict(params)
+  prediction = regressor.predict(data)
+  print(prediction)
   return jsonify(prediction)
 
 if not path.exists('models/classifier.pkl') and not path.exists('models/regressor.pkl'):
