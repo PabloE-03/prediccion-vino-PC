@@ -110,17 +110,45 @@ main{
     font-style: normal;
 }
 
-.title{
-    margin-bottom: 5%;
+.botones{
+    width: 20%;
+    margin: 2% auto;
+}
+
+.botones > a button{
+    width: 35%;
+    display: inline-block;
+    text-align: center;
+    font-family: "Eagle Lake", serif;
+    font-weight: 400;
+    font-style: normal;
+    border: 2px;
+    border-radius: 3px;
+    border-style: solid;
+    background-color: blanchedalmond;
+    margin-left: 5%;
+    transition: 1s;
+}
+
+.botones > a:first-child button{
+    transform: scale(1.1,1.1);
+    border-color: darkgoldenrod;
+}
+
+.botones  > a:last-child:hover button{
+    width: 37%;
+    border-color: forestgreen;
+    cursor: pointer;
 }
 
 .formulario-vino{
-     width: 40%;
-     height: fit-content;
-     margin: 0% auto;
-     border-style: solid;
-     border-color: black;
-     border-radius: 5px;
+    width: 40%;
+    height: fit-content;
+    margin: 0% auto;
+    margin-bottom: 2%;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
     transition: 1s;
 }
 
@@ -130,9 +158,9 @@ main{
 }
 
 .button-ev{
-    width: 10%;
+    width: 12%;
     font-family: "Eagle Lake", serif;
-    font-weight: 400;
+    font-weight: bolder;
     font-style: normal;
     border-radius: 5px;
     margin-bottom: 2%;
@@ -141,7 +169,7 @@ main{
 }
 
 .button-ev:hover{
-    width: 15%;
+    width: 17%;
     border-color: forestgreen;
     cursor: pointer;
 }
@@ -173,19 +201,17 @@ main{
 input{
     width: 9%;
     margin-left: 2%;
-}
-
-.label-pop-up{
+    font-family: "Eagle Lake", serif;
+    font-weight: bolder;
+    font-style: normal;
+    background-color: blanchedalmond;
+    border-radius: 5px;
     transition: 1s;
-    width: fit-content;
-    margin: 3% auto;
 }
 
-.label-pop-up:hover{
-    color: blueviolet;
-    border-bottom-style: solid;
-    border-color: blueviolet;
-    cursor: pointer;
+input:hover{
+    width: 10%;
+    border-color: forestgreen;
 }
 
 .animacion-1{
@@ -262,4 +288,45 @@ input{
     border-radius: 50%;
     transform: translate(8%,-85%);
     transition: 1.5s;
+}
+
+
+footer{
+    width: 100%;
+    background: radial-gradient(rgb(58, 57, 57),black);
+    text-align: center;
+    padding: 1.5% 0%;
+    color: darkgoldenrod;
+    display: flex;
+}
+
+footer > h2{
+    margin-left: 30%;
+    margin-top: 2%;
+
+}
+
+.nombres{
+    margin-left: 2%;
+}
+
+.evaluacion{
+    width: 40%;
+    height: fit-content;
+    border-style: solid;
+    margin: 2% auto;
+}
+
+.evaluacion > h3{
+    width: fit-content;
+    display: inline-block;
+}
+
+.barra{
+    width: 30%;
+    height: 2vh;
+    border-style: solid;
+    border-color: black;
+    display: inline-block;
+    transform: translateY(25%);
 }
