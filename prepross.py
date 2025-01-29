@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from imblearn.over_sampling import SMOTE
 import pickle
@@ -27,7 +26,7 @@ def preprocessing():
     mm_scaler =  MinMaxScaler()
     mm_scaler.fit(data.drop(columns=["quality","density","chlorides"]))
     
-    pickle.dump(mm_scaler, open('mm_scaler.pkl', 'wb'))
+    pickle.dump(mm_scaler, open('models/mm_scaler.pkl', 'wb'))
     
     data_norm = mm_scaler.transform(data.drop(columns=["quality","density","chlorides"]))
 
@@ -46,7 +45,7 @@ def preprocessing():
     scaler = StandardScaler()
     scaler.fit(data.drop(columns=["quality"]))
     
-    pickle.dump(scaler, open('scaler.pkl', 'wb'))
+    pickle.dump(scaler, open('models/scaler.pkl', 'wb'))
     
     data_norm = scaler.transform(data.drop(columns=["quality"]))
     

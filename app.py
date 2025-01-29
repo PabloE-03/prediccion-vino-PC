@@ -8,7 +8,6 @@ from sklearn.metrics import accuracy_score
 from prepross import preprocessing
 from k_folds import k_folds
 
-
 app = Flask(__name__)
 
 def get_data():
@@ -21,8 +20,8 @@ def get_data():
   train = pd.concat([X_train, y_train], axis=1)
   
   '''
-  classifier = pickle.load(open('classifier.pkl', 'rb'))
-  regressor = pickle.load(open('regressor.pkl', 'rb'))
+  classifier = pickle.load(open('models/classifier.pkl', 'rb'))
+  regressor = pickle.load(open('models/regressor.pkl', 'rb'))
   
   print(f'Precisión del clasificador: {accuracy_score(y_test, classifier.predict(X_test))*100}%')
   print(f'Precisión del regresor: {accuracy_score(y_test, regressor.predict(X_test))*100}%')
@@ -44,8 +43,8 @@ def create_models():
   classifier.fit(X, y)
   regressor.fit(X, y)
   
-  pickle.dump(classifier, open('classifier.pkl', 'wb'))
-  pickle.dump(regressor, open('regressor.pkl', 'wb'))
+  pickle.dump(classifier, open('models/classifier.pkl', 'wb'))
+  pickle.dump(regressor, open('models/regressor.pkl', 'wb'))
 
 @app.route('/')
 def index():
@@ -54,18 +53,18 @@ def index():
 @app.route('/classifier', methods=['POST'])
 def knn_classifier():
   params = request.get_json(force=True)
-  classifier = pickle.load(open('classifier.pkl', 'rb'))
+  classifier = pickle.load(open('models/classifier.pkl', 'rb'))
   prediction = classifier.predict(params)
   return jsonify(prediction)
 
 @app.route('/regressor', methods=['POST'])
 def knn_regressor():
   params = request.get_json(force=True)
-  regressor = pickle.load(open('regressor.pkl', 'rb'))
+  regressor = pickle.load(open('models/regressor.pkl', 'rb'))
   prediction = regressor.predict(params)
   return jsonify(prediction)
 
-if not path.exists('classifier.pkl') and not path.exists('regressor.pkl'):
+if not path.exists('models/classifier.pkl') and not path.exists('models/regressor.pkl'):
   create_models()
 
 if __name__ == '__main__':
