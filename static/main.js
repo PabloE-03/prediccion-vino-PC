@@ -75,7 +75,7 @@ const evaluate = async()=>{
         "sulphates":input.item(6),
         "alcohol":input.item(7)
     };
-    let url = select.value=="regresion" ? "/regression" : "/classifier";
+    let url = select.value=="regresion" ? "http://localhost:5002/regression" : "http://localhost:5002/classifier";
 
     const response = await fetch(url,{
         method:"POST",
