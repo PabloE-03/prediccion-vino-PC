@@ -63,9 +63,8 @@ def knn_classifier():
 
   # prediccion
   classifier = pickle.load(open('models/classifier.pkl', 'rb'))
-  prediction = classifier.predict(data)
-  print(prediction)
-  return jsonify(prediction)
+  prediction = classifier.predict(data)[0]
+  return {'prediction': int(prediction)}
 
 @app.route('/regressor', methods=['POST'])
 def knn_regressor():
@@ -80,9 +79,8 @@ def knn_regressor():
 
   # prediccion
   regressor = pickle.load(open('models/regressor.pkl', 'rb'))
-  prediction = regressor.predict(data)
-  print(prediction)
-  return jsonify(prediction)
+  prediction = regressor.predict(data)[0]
+  return {'prediction': int(prediction)}
 
 if not path.exists('models/classifier.pkl') and not path.exists('models/regressor.pkl'):
   create_models()
