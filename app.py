@@ -25,14 +25,14 @@ def create_models():
 def index():
   return render_template('index.html')
 
-@app.route('/')
+@app.route('/classifier')
 def knn_classifier():
   params = request.get_json(force=True)
   classifier = pickle.load(open('classifier.pkl', 'rb'))
   prediction = classifier.predict(params)
   return jsonify(prediction)
 
-@app.route('/')
+@app.route('/regressor')
 def knn_regressor():
   params = request.get_json(force=True)
   regressor = pickle.load(open('regressor.pkl', 'rb'))
