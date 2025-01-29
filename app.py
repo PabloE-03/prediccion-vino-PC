@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import pickle
 import pandas as pd
 import os.path as path
+import numpy as np
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score,classification_report
@@ -19,35 +20,32 @@ def get_data():
   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
   train = pd.concat([X_train, y_train], axis=1)
   
-  '''
-  classifier = pickle.load(open('models/classifier.pkl', 'rb'))
-  regressor = pickle.load(open('models/regressor.pkl', 'rb'))
-  
-  print(f'Precisión del clasificador: {accuracy_score(y_test, classifier.predict(X_test))*100}%')
-  print(f"INFORME DE CLASIFICACION DEL CLASIFICADOR:\n {classification_report(y_test,classifier.predict(X_test))})
-  print("\n\n")
-  print(f'Precisión del regresor: {accuracy_score(y_test, regressor.predict(X_test))*100}%')
-  print(f"INFORME DE CLASIFICACION DEL REGRESOR:\n {classification_report(y_test,regressor.predict(X_test))})
-  '''
-  
-  return train
+  return (train, X_test, y_test)
 
 def create_models():
-  hyperparams = k_folds(get_data())
+  data = get_data()
+  
+  hyperparams = k_folds(data[0])
   max_key = max(hyperparams, key=hyperparams.get)
   max_value = hyperparams[max_key]
   
   classifier = KNeighborsClassifier(n_neighbors=max_value, weights=max_key)
   regressor = KNeighborsRegressor(n_neighbors=max_value, weights=max_key)
   
-  y = get_data()['quality'] 
-  X = get_data().drop('quality', axis=1)
+  y = data[0]['quality'] 
+  X = data[0].drop('quality', axis=1)
   
   classifier.fit(X, y)
   regressor.fit(X, y)
   
   pickle.dump(classifier, open('models/classifier.pkl', 'wb'))
   pickle.dump(regressor, open('models/regressor.pkl', 'wb'))
+  
+  print(f'Precisión del clasificador: {accuracy_score(data[2], classifier.predict(data[1]))*100}%')
+  print(f'INFORME DE CLASIFICACION DEL CLASIFICADOR:\n {classification_report(data[2],classifier.predict(data[1]))}')
+        
+  print(f'Precisión del regresor: {accuracy_score(data[2], np.round(regressor.predict(data[1])))*100}%')
+  print(f'INFORME DE CLASIFICACION DEL REGRESOR:\n {classification_report(data[2],np.round(regressor.predict(data[1])))}')
 
 @app.route('/')
 def index():
