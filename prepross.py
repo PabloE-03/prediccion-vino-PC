@@ -26,6 +26,9 @@ def preprocessing():
     # Normalizamos los datos
     mm_scaler =  MinMaxScaler()
     mm_scaler.fit(data.drop(columns=["quality","density","chlorides"]))
+    
+    pickle.dump(mm_scaler, open('mm_scaler.pkl', 'wb'))
+    
     data_norm = mm_scaler.transform(data.drop(columns=["quality","density","chlorides"]))
 
     prueba = pd.DataFrame(data=data_norm,columns=data.drop(columns=["quality","density","chlorides"]).columns)
