@@ -1,14 +1,23 @@
 from flask import Flask, render_template, request, jsonify
 import pickle
 import pandas as pd
+import os.path as path
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.model_selection import train_test_split
+from prepross import preprocessing
 
 app = Flask(__name__)
 
 def get_data():
-  data = pd.read_csv('data.csv')
+  data = pd.read_csv('data/data.csv')
+  data = preprocessing(data)
+  
   y = data['quality']
   X = data.drop('quality', axis=1)
+  
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+  
+  
   return (X, y)
 
 def create_models():
@@ -39,6 +48,8 @@ def knn_regressor():
   prediction = regressor.predict(params)
   return jsonify(prediction)
 
+if not path.exists('classifier.pkl') and not path.exists('regressor.pkl'):
+  create_models()
 
 if __name__ == '__main__':
   app.run(
