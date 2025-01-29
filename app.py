@@ -3,66 +3,46 @@ import pickle
 import pandas as pd
 import os.path as path
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.model_selection import train_test_split,KFold
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from prepross import preprocessing
-import numpy as np
+from k_folds import k_folds
+
 
 app = Flask(__name__)
 
 def get_data():
-  data = pd.read_csv('data/data.csv')
-  data = preprocessing(data)
+  data = preprocessing()
   
   y = data['quality']
   X = data.drop('quality', axis=1)
   
   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+  train = pd.concat([X_train, y_train], axis=1)
   
+  '''
+  classifier = pickle.load(open('classifier.pkl', 'rb'))
+  regressor = pickle.load(open('regressor.pkl', 'rb'))
   
-  return (X, y)
+  print(f'Precisión del clasificador: {accuracy_score(y_test, classifier.predict(X_test))*100}%')
+  print(f'Precisión del regresor: {accuracy_score(y_test, regressor.predict(X_test))*100}%')
+  '''
+  
+  return train
 
 def create_models():
-  # la longitud del conjunto de datos de entrenamiento es 160 por lo que se partira en 4 partes
-  SPLITS = 4
-  # como la longitud del conjunto de datos de entreno es 160 40 vecinos se ajusta muy bien como maximo
-  MAX_NEIGHBORS = 40
-  cross_validation = KFold(n_splits=SPLITS,shuffle=True)
-  hiperparam = {}
-  # iterado de los metodos de peso para comprobar cual se ajusta mejor
-  for i,weights in enumerate(["uniform","distance"]):
-      scores = []
-      # iterado de numero de vecinos para saber cual es el numero que mejor se ajusta
-      for neighbor in range(1,MAX_NEIGHBORS):
-          accuracy = []
-          knn = KNeighborsClassifier(neighbor,weights=weights)
-          # prueba del modelo del minimo de vecinos al maximo de vecinos
-          for train_fold,test_fold in cross_validation.split(train):
-              
-              # seleccion aleatoria de datos de entrenamiento mediante indices
-              r_train = train.iloc[train_fold]
-              r_test = train.iloc[test_fold]
-
-              # entrenamiento del modelo
-              knn.fit(r_train.drop(columns=["label"]),r_train["label"])
-
-              # prediccion del modelo usando los datos de entrenamiento 
-              evaluation = knn.predict(r_test.drop(columns=["label"]))
-
-              accuracy.append(accuracy_score(r_test["label"],evaluation))
-
-          scores.append(np.mean(accuracy))
-      
-      # guardamos el valor máximo del peso para evaluarlo más adelante
-      hiperparam[weights] = np.argmax(scores)+1
-      
-
+  hyperparams = k_folds(get_data())
+  max_key = max(hyperparams, key=hyperparams.get)
+  max_value = hyperparams[max_key]
   
-  classifier = KNeighborsClassifier(n_neighbors=3)
-  regressor = KNeighborsRegressor(n_neighbors=3)
+  classifier = KNeighborsClassifier(n_neighbors=max_value, weights=max_key)
+  regressor = KNeighborsRegressor(n_neighbors=max_value, weights=max_key)
   
-  classifier.fit(get_data()[0], get_data()[1])
-  regressor.fit(get_data()[0], get_data()[1])
+  y = get_data()['quality'] 
+  X = get_data().drop('quality', axis=1)
+  
+  classifier.fit(X, y)
+  regressor.fit(X, y)
   
   pickle.dump(classifier, open('classifier.pkl', 'wb'))
   pickle.dump(regressor, open('regressor.pkl', 'wb'))
