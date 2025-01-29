@@ -4,7 +4,7 @@ import pandas as pd
 import os.path as path
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score,classification_report
 from prepross import preprocessing
 from k_folds import k_folds
 
@@ -24,7 +24,10 @@ def get_data():
   regressor = pickle.load(open('models/regressor.pkl', 'rb'))
   
   print(f'Precisión del clasificador: {accuracy_score(y_test, classifier.predict(X_test))*100}%')
+  print(f"INFORME DE CLASIFICACION DEL CLASIFICADOR:\n {classification_report(y_test,classifier.predict(X_test))})
+  print("\n\n")
   print(f'Precisión del regresor: {accuracy_score(y_test, regressor.predict(X_test))*100}%')
+  print(f"INFORME DE CLASIFICACION DEL REGRESOR:\n {classification_report(y_test,regressor.predict(X_test))})
   '''
   
   return train

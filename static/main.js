@@ -86,10 +86,51 @@ const evaluate_wine = async()=>{
     if(response.ok)
     {
         const data = await response.json()
-        return undefined
+        const calidad = document.getElementById("calidad")
+        calidad.textContent = "El vino introducido es de calidad "+data.prediction
+        const content = document.getElementsByClassName("content")[0]
+        if(data.prediction==3)
+        {
+            content.style.width = "20%";
+            content.style.backgroundColor = "darkred";
+        }
+        else if(data.prediction==4)
+        {
+            content.style.width = "35%";
+            content.style.backgroundColor = "darkorange";
+        }
+        else if(data.prediction==4)
+        {
+                content.style.width = "45%";
+                content.style.backgroundColor = "orange";
+        }
+        else if(data.prediction==5)
+        {
+            content.style.width = "55%";
+            content.style.backgroundColor = "darkgoldenrod";
+        }
+        else if(data.prediction==6)
+        {
+            content.style.width = "60%";
+            content.style.backgroundColor = "yellowgreen";
+        }
+        else if(data.prediction==7)
+        {
+            content.style.width = "85%";
+            content.style.backgroundColor = "green";
+        }
+        else if(data.prediction==8)
+        {
+            content.style.width = "100%";
+            content.style.backgroundColor = "forestgreen";
+        }
     }
     else
     {
-        return false
-    }
+        const calidad = document.getElementById("calidad")
+        calidad.textContent = "No se ha podido procesar la solicitud"
+        const content = document.getElementsByClassName("content")[0]
+        content.style.width = "100%";
+        content.style.backgroundColor = "darkred";
+    }   
 }

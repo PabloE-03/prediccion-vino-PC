@@ -329,3 +329,9 @@ footer > h2{
     display: inline-block;
     transform: translateY(25%);
 }
+
+.content{
+    width: 0%;
+    height: 2vh;
+    transition: 1s;
+}
