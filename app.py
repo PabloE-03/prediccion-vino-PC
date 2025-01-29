@@ -51,14 +51,14 @@ def create_models():
 def index():
   return render_template('index.html')
 
-@app.route('/classifier')
+@app.route('/classifier', methods=['POST'])
 def knn_classifier():
   params = request.get_json(force=True)
   classifier = pickle.load(open('classifier.pkl', 'rb'))
   prediction = classifier.predict(params)
   return jsonify(prediction)
 
-@app.route('/regressor')
+@app.route('/regressor', methods=['POST'])
 def knn_regressor():
   params = request.get_json(force=True)
   regressor = pickle.load(open('regressor.pkl', 'rb'))
